@@ -1,8 +1,5 @@
 package com.kongkongye.backend.permission.common;
 
-import com.kongkongye.backend.common.BaseController;
-import com.kongkongye.backend.common.Result;
-import com.kongkongye.backend.common.exception.CustomResultException;
 import com.kongkongye.backend.permission.dao.*;
 import com.kongkongye.backend.permission.repository.*;
 import com.kongkongye.backend.permission.service.*;

@@ -1,7 +1,7 @@
 package com.kongkongye.backend.permission.config;
 
 import com.alibaba.fastjson.JSON;
-import com.kongkongye.backend.common.Result;
+import com.kongkongye.backend.permission.common.Result;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;

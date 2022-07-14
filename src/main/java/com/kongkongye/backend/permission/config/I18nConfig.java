@@ -1,6 +1,5 @@
 package com.kongkongye.backend.permission.config;
 
-import com.kongkongye.backend.common.constant.LBaseConsts;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ public class I18nConfig {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 //        messageSource.setDefaultEncoding(StandardCharsets.UTF_8.name());
-        messageSource.setBasenames(LBaseConsts.LANGUAGE_BASE, "classpath:org/springframework/security/messages");
+        messageSource.setBasenames("classpath:org/springframework/security/messages");
         return messageSource;
     }
 }

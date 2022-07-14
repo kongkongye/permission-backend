@@ -1,7 +1,7 @@
 package com.kongkongye.backend.permission.controller.auth;
 
-import com.kongkongye.backend.common.Result;
 import com.kongkongye.backend.permission.common.MyBaseController;
+import com.kongkongye.backend.permission.common.Result;
 import com.kongkongye.backend.permission.entity.user.UserDept;
 import com.kongkongye.backend.permission.query.UserQuery;
 import com.kongkongye.backend.queryer.QueryUtil;

@@ -1,8 +1,8 @@
 package com.kongkongye.backend.permission.controller.all;
 
-import com.kongkongye.backend.common.Result;
-import com.kongkongye.backend.common.exception.CustomResultException;
+import com.kongkongye.backend.permission.common.CustomResultException;
 import com.kongkongye.backend.permission.common.MyBaseController;
+import com.kongkongye.backend.permission.common.Result;
 import com.kongkongye.backend.permission.config.jdbc.MyUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

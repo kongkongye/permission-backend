@@ -1,6 +1,5 @@
 package com.kongkongye.backend.permission.common;
 
-import com.kongkongye.backend.common.BaseService;
 import com.kongkongye.backend.permission.dao.*;
 import com.kongkongye.backend.permission.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;

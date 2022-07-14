@@ -24,5 +24,3 @@ spring:
 logging:
   file:
     name: application.log
-server:
-  port: 8088

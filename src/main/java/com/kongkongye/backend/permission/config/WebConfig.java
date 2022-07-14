@@ -1,6 +1,6 @@
 package com.kongkongye.backend.permission.config;
 
-import com.kongkongye.backend.common.interceptor.LogInterceptor;
+import com.kongkongye.backend.permission.common.LogInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

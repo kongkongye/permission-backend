@@ -1,7 +1,7 @@
 package com.kongkongye.backend.permission.controller.admin;
 
-import com.kongkongye.backend.common.Result;
 import com.kongkongye.backend.permission.common.MyBaseController;
+import com.kongkongye.backend.permission.common.Result;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
 import com.kongkongye.backend.permission.entity.per.PerValue;

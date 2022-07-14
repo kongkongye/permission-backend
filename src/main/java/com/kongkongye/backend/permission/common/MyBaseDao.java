@@ -1,7 +1,6 @@
 package com.kongkongye.backend.permission.common;
 
-import com.kongkongye.backend.common.Base;
-import com.kongkongye.backend.common.util.Util;
+import com.kongkongye.backend.permission.common.util.Util;
 import com.kongkongye.backend.permission.entity.Model;
 import com.kongkongye.backend.queryer.SqlHelper;
 import com.kongkongye.backend.queryer.jdbc.JdbcUtil;

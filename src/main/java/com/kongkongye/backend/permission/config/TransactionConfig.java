@@ -18,7 +18,7 @@ import java.util.Map;
 @Aspect
 @Configuration
 public class TransactionConfig {
-    private String aopPointcutExpressionBaseService = "execution (* com.kongkongye.backend.common.BaseService+.*(..))";
+    private String aopPointcutExpressionBaseService = "execution (* com.kongkongye.backend.permission.common.BaseService+.*(..))";
 
     @Autowired
     private TransactionManager transactionManager;
