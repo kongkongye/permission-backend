@@ -1,9 +1,24 @@
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://localhost:3306/permission?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=true&allowPublicKeyRetrieval=true
-      username: root
-      password: "Root;123HeHa"
+      #连接配置
+      connection-init-sqls:
+        - "set names utf8mb4"
+      #连接池配置
+      initial-size: 10
+      max-active: 100
+      min-idle: 1
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      pool-prepared-statements: true
+      max-open-prepared-statements: 500
+      async-init: true
+      #  自动查询,防断开
+      validation-query: "select 1"
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
   profiles:
     active: dev
 logging:

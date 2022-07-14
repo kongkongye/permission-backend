@@ -1,1 +1,7 @@
 realIpHeader: X-Forwarded-For
+spring:
+  datasource:
+    druid:
+      url: jdbc:mysql://localhost:3306/permission?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=true&allowPublicKeyRetrieval=true
+      username: root
+      password: root
