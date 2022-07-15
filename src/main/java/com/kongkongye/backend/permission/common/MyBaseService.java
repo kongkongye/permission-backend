@@ -3,6 +3,8 @@ package com.kongkongye.backend.permission.common;
 import com.kongkongye.backend.permission.dao.*;
 import com.kongkongye.backend.permission.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 public class MyBaseService extends BaseService {
     @Autowired
@@ -46,4 +48,9 @@ public class MyBaseService extends BaseService {
     protected RoleRepository roleRepository;
     @Autowired
     protected UserRoleRepository userRoleRepository;
+
+    @Autowired
+    protected RedisTemplate redisTemplate;
+    @Autowired
+    protected StringRedisTemplate stringRedisTemplate;
 }
