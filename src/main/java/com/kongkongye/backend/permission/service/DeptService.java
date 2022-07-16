@@ -47,31 +47,31 @@ public class DeptService extends MyBaseService implements InitializingBean {
     }
 
     /**
-     * 获取所有的部门编码，包括子部门
+     * 获取所有的编码，包括子
      */
-    public List<String> getDeptCodesRecursive(@Nullable List<String> deptCodes) {
-        return getDeptsRecursive(deptCodes).stream().map(DeptTreeDTO::getNode).map(Dept::getCode).collect(Collectors.toList());
+    public List<String> getCodesRecursive(@Nullable List<String> codes) {
+        return getRecursive(codes).stream().map(DeptTreeDTO::getNode).map(Dept::getCode).collect(Collectors.toList());
     }
 
     /**
-     * 获取所有的部门树节点，包括子部门
+     * 获取所有的树节点，包括子
      */
-    public List<DeptTreeDTO> getDeptsRecursive(@Nullable List<String> deptCodes) {
-        if (deptCodes == null || deptCodes.isEmpty()) {
+    public List<DeptTreeDTO> getRecursive(@Nullable List<String> codes) {
+        if (codes == null || codes.isEmpty()) {
             return new ArrayList<>();
         }
 
         //本身
-        List<DeptTreeDTO> result = deptCodes.stream().map(e -> codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
+        List<DeptTreeDTO> result = codes.stream().map(e -> this.codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
 
         //children
-        List<String> childrenDeptCodes = new ArrayList<>();
+        List<String> childrenCodes = new ArrayList<>();
         for (DeptTreeDTO parent : new ArrayList<>(result)) {
             if (parent.getChildren() != null) {
-                childrenDeptCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
+                childrenCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
             }
         }
-        result.addAll(getDeptsRecursive(childrenDeptCodes));
+        result.addAll(getRecursive(childrenCodes));
 
         return result;
     }

@@ -48,14 +48,14 @@ public class BizService extends MyBaseService implements InitializingBean {
     }
 
     /**
-     * 获取所有的编码，包括子级
+     * 获取所有的编码，包括子
      */
     public List<String> getCodesRecursive(@Nullable List<String> codes) {
         return getRecursive(codes).stream().map(BizDirTreeDTO::getNode).map(BizDir::getCode).collect(Collectors.toList());
     }
 
     /**
-     * 获取所有的树节点，包括子级
+     * 获取所有的树节点，包括子
      */
     public List<BizDirTreeDTO> getRecursive(@Nullable List<String> codes) {
         if (codes == null || codes.isEmpty()) {
@@ -66,13 +66,13 @@ public class BizService extends MyBaseService implements InitializingBean {
         List<BizDirTreeDTO> result = codes.stream().map(e -> this.codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
 
         //children
-        List<String> childrenDeptCodes = new ArrayList<>();
+        List<String> childrenCodes = new ArrayList<>();
         for (BizDirTreeDTO parent : new ArrayList<>(result)) {
             if (parent.getChildren() != null) {
-                childrenDeptCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
+                childrenCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
             }
         }
-        result.addAll(getRecursive(childrenDeptCodes));
+        result.addAll(getRecursive(childrenCodes));
 
         return result;
     }

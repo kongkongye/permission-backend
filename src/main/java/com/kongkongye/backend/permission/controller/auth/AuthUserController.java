@@ -18,7 +18,7 @@ public class AuthUserController extends MyBaseController {
     @RequestMapping("/query")
     public Result query(UserQuery query, Paging paging) {
         query.handle();
-        query.setDeptCodeList(isTrue(query.getContainSubDept()) ? deptService.getDeptCodesRecursive(query.getDeptCodeList()) : query.getDeptCodeList());
+        query.setDeptCodeList(isTrue(query.getContainSubDept()) ? deptService.getCodesRecursive(query.getDeptCodeList()) : query.getDeptCodeList());
         return Result.success(QueryUtil.query(query.getQueryType(), paging, userDao.help(query)));
     }
 

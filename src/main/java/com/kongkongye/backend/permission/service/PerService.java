@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kongkongye.backend.permission.common.MyBaseService;
 import com.kongkongye.backend.permission.common.RedisCacheManager;
+import com.kongkongye.backend.permission.dto.per.PerValueBriefDTO;
 import com.kongkongye.backend.permission.dto.per.PerValueTreeDTO;
 import com.kongkongye.backend.permission.entity.per.PerBind;
 import com.kongkongye.backend.permission.entity.per.PerValue;
@@ -25,12 +26,12 @@ public class PerService extends MyBaseService implements InitializingBean {
 
     @Autowired
     @Qualifier("perValueCacheManager")
-    private RedisCacheManager<List<PerValue>> perValueCache;
+    private RedisCacheManager<List<PerValueBriefDTO>> perValueCache;
 
     public void refreshTree() {
-        List<PerValue> data = perValueCache.getData();
+        List<PerValueBriefDTO> data = perValueCache.getData();
         //depts
-        for (PerValue value : data) {
+        for (PerValueBriefDTO value : data) {
             codes.put(value.getCode(), new PerValueTreeDTO(value));
         }
         //trees
@@ -48,31 +49,31 @@ public class PerService extends MyBaseService implements InitializingBean {
     }
 
     /**
-     * 获取所有的部门编码，包括子部门
+     * 获取所有的编码，包括子
      */
-    public List<String> getDeptCodesRecursive(@Nullable List<String> deptCodes) {
-        return getDeptsRecursive(deptCodes).stream().map(PerValueTreeDTO::getNode).map(PerValue::getCode).collect(Collectors.toList());
+    public List<String> getCodesRecursive(@Nullable List<String> codes) {
+        return getRecursive(codes).stream().map(PerValueTreeDTO::getNode).map(PerValueBriefDTO::getCode).collect(Collectors.toList());
     }
 
     /**
-     * 获取所有的部门树节点，包括子部门
+     * 获取所有的树节点，包括子
      */
-    public List<PerValueTreeDTO> getDeptsRecursive(@Nullable List<String> deptCodes) {
-        if (deptCodes == null || deptCodes.isEmpty()) {
+    public List<PerValueTreeDTO> getRecursive(@Nullable List<String> codes) {
+        if (codes == null || codes.isEmpty()) {
             return new ArrayList<>();
         }
 
         //本身
-        List<PerValueTreeDTO> result = deptCodes.stream().map(e -> codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
+        List<PerValueTreeDTO> result = codes.stream().map(e -> this.codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
 
         //children
-        List<String> childrenDeptCodes = new ArrayList<>();
+        List<String> childrenCodes = new ArrayList<>();
         for (PerValueTreeDTO parent : new ArrayList<>(result)) {
             if (parent.getChildren() != null) {
-                childrenDeptCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
+                childrenCodes.addAll(parent.getChildren().stream().map(e -> e.getNode().getCode()).collect(Collectors.toList()));
             }
         }
-        result.addAll(getDeptsRecursive(childrenDeptCodes));
+        result.addAll(getRecursive(childrenCodes));
 
         return result;
     }

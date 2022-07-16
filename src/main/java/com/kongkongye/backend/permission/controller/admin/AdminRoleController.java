@@ -15,7 +15,7 @@ public class AdminRoleController extends MyBaseController {
     @RequestMapping("/query")
     public Result query(RoleQuery query, Paging paging) {
         query.handle();
-        query.setDeptCodeList(isTrue(query.getContainSubDept()) ? deptService.getDeptCodesRecursive(query.getDeptCodeList()) : query.getDeptCodeList());
+        query.setDeptCodeList(isTrue(query.getContainSubDept()) ? deptService.getCodesRecursive(query.getDeptCodeList()) : query.getDeptCodeList());
         return Result.success(QueryUtil.query(query.getQueryType(), paging, roleDao.help(query)));
     }
 

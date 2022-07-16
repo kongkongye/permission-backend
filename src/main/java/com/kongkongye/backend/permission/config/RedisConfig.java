@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.common.RedisConsts;
+import com.kongkongye.backend.permission.dao.PerValueDao;
+import com.kongkongye.backend.permission.dto.per.PerValueBriefDTO;
 import com.kongkongye.backend.permission.entity.dept.Dept;
 import com.kongkongye.backend.permission.entity.per.BizDir;
-import com.kongkongye.backend.permission.entity.per.PerValue;
+import com.kongkongye.backend.permission.query.PerValueQuery;
 import com.kongkongye.backend.permission.repository.BizDirRepository;
 import com.kongkongye.backend.permission.repository.DeptRepository;
 import com.kongkongye.backend.permission.repository.PerValueRepository;
@@ -29,6 +31,8 @@ public class RedisConfig {
     private DeptRepository deptRepository;
     @Autowired
     private PerValueRepository perValueRepository;
+    @Autowired
+    private PerValueDao perValueDao;
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -75,22 +79,22 @@ public class RedisConfig {
     }
 
     @Bean("perValueCacheManager")
-    public RedisCacheManager<List<PerValue>> perValueCacheManager() {
-        return new RedisCacheManager<List<PerValue>>("权限值", RedisConsts.REDIS_CACHE_PER_VALUE_TREE, RedisConsts.REDIS_SUB_PER_VALUE_TREE, stringRedisTemplate) {
+    public RedisCacheManager<List<PerValueBriefDTO>> perValueCacheManager() {
+        return new RedisCacheManager<List<PerValueBriefDTO>>("权限值", RedisConsts.REDIS_CACHE_PER_VALUE_TREE, RedisConsts.REDIS_SUB_PER_VALUE_TREE, stringRedisTemplate) {
 
             @Override
-            protected List<PerValue> loadData() {
-                return Lists.newArrayList(perValueRepository.findAll());
+            protected List<PerValueBriefDTO> loadData() {
+                return Lists.newArrayList(perValueDao.helpBrief(new PerValueQuery()).getListParsed());
             }
 
             @Override
-            protected String encode(List<PerValue> data) {
+            protected String encode(List<PerValueBriefDTO> data) {
                 return JSON.toJSONString(data);
             }
 
             @Override
-            protected List<PerValue> decode(String data) {
-                return JSON.parseArray(data, PerValue.class);
+            protected List<PerValueBriefDTO> decode(String data) {
+                return JSON.parseArray(data, PerValueBriefDTO.class);
             }
         };
     }
@@ -100,7 +104,7 @@ public class RedisConfig {
             RedisConnectionFactory connectionFactory,
             @Qualifier("bizDirTreeCacheManager") RedisCacheManager<List<BizDir>> bizDirRedisCacheManager,
             @Qualifier("deptTreeCacheManager") RedisCacheManager<List<Dept>> deptRedisCacheManager,
-            @Qualifier("perValueCacheManager") RedisCacheManager<List<PerValue>> perValueCacheManager
+            @Qualifier("perValueCacheManager") RedisCacheManager<List<PerValueBriefDTO>> perValueCacheManager
     ) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
