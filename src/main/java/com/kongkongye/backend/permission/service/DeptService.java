@@ -3,10 +3,13 @@ package com.kongkongye.backend.permission.service;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kongkongye.backend.permission.common.MyBaseService;
+import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.dto.dept.DeptTreeDTO;
 import com.kongkongye.backend.permission.entity.dept.Dept;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -16,19 +19,24 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class DeptService extends MyBaseService implements InitializingBean {
-    private Map<String, DeptTreeDTO> depts = new HashMap<>();
+    private Map<String, DeptTreeDTO> codes = new HashMap<>();
     private List<DeptTreeDTO> trees = new ArrayList<>();
 
+    @Autowired
+    @Qualifier("deptTreeCacheManager")
+    private RedisCacheManager<List<Dept>> deptCache;
+
     public void refreshTree() {
+        List<Dept> data = deptCache.getData();
         //depts
-        for (Dept dept : deptRepository.findAll()) {
-            depts.put(dept.getCode(), new DeptTreeDTO(dept));
+        for (Dept dept : data) {
+            codes.put(dept.getCode(), new DeptTreeDTO(dept));
         }
         //trees
-        for (Map.Entry<String, DeptTreeDTO> entry : depts.entrySet()) {
+        for (Map.Entry<String, DeptTreeDTO> entry : codes.entrySet()) {
             DeptTreeDTO value = entry.getValue();
             if (!Strings.isNullOrEmpty(value.getNode().getParent())) {
-                DeptTreeDTO parent = depts.get(value.getNode().getParent());
+                DeptTreeDTO parent = codes.get(value.getNode().getParent());
                 if (parent != null) {
                     parent.addChild(value);
                 }
@@ -54,7 +62,7 @@ public class DeptService extends MyBaseService implements InitializingBean {
         }
 
         //本身
-        List<DeptTreeDTO> result = deptCodes.stream().map(e -> depts.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
+        List<DeptTreeDTO> result = deptCodes.stream().map(e -> codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
 
         //children
         List<String> childrenDeptCodes = new ArrayList<>();
@@ -70,7 +78,7 @@ public class DeptService extends MyBaseService implements InitializingBean {
 
     public Dept save(Dept dept) {
         dept = deptDao.save(dept, "code");
-        refreshTree();
+        deptCache.refreshCache();
         return dept;
     }
 
@@ -81,12 +89,13 @@ public class DeptService extends MyBaseService implements InitializingBean {
         }
         //删除
         deptDao.del(dept);
-        refreshTree();
+        deptCache.refreshCache();
         return dept;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        deptCache.addUpdateNotifier(this::refreshTree);
         refreshTree();
     }
 }

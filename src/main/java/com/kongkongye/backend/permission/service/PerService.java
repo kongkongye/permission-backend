@@ -3,11 +3,14 @@ package com.kongkongye.backend.permission.service;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kongkongye.backend.permission.common.MyBaseService;
+import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.dto.per.PerValueTreeDTO;
 import com.kongkongye.backend.permission.entity.per.PerBind;
 import com.kongkongye.backend.permission.entity.per.PerValue;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +23,14 @@ public class PerService extends MyBaseService implements InitializingBean {
     private Map<String, PerValueTreeDTO> codes = new HashMap<>();
     private List<PerValueTreeDTO> trees = new ArrayList<>();
 
+    @Autowired
+    @Qualifier("perValueCacheManager")
+    private RedisCacheManager<List<PerValue>> perValueCache;
+
     public void refreshTree() {
+        List<PerValue> data = perValueCache.getData();
         //depts
-        for (PerValue value : perValueRepository.findAll()) {
+        for (PerValue value : data) {
             codes.put(value.getCode(), new PerValueTreeDTO(value));
         }
         //trees
@@ -101,12 +109,13 @@ public class PerService extends MyBaseService implements InitializingBean {
 
     public PerValue savePerValue(PerValue entity) {
         entity = perValueDao.save(entity, "code");
-        refreshTree();
+        perValueCache.refreshCache();
         return entity;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        perValueCache.addUpdateNotifier(this::refreshTree);
         refreshTree();
     }
 }

@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class BizService extends MyBaseService implements InitializingBean {
-    private Map<String, BizDirTreeDTO> codeToTrees = new HashMap<>();
+    private Map<String, BizDirTreeDTO> codes = new HashMap<>();
     private List<BizDirTreeDTO> trees = new ArrayList<>();
 
     @Autowired
@@ -31,13 +31,13 @@ public class BizService extends MyBaseService implements InitializingBean {
         List<BizDir> data = bizDirCache.getData();
         //codeToTrees
         for (BizDir e : data) {
-            codeToTrees.put(e.getCode(), new BizDirTreeDTO(e));
+            codes.put(e.getCode(), new BizDirTreeDTO(e));
         }
         //trees
-        for (Map.Entry<String, BizDirTreeDTO> entry : codeToTrees.entrySet()) {
+        for (Map.Entry<String, BizDirTreeDTO> entry : codes.entrySet()) {
             BizDirTreeDTO value = entry.getValue();
             if (!Strings.isNullOrEmpty(value.getNode().getParent())) {
-                BizDirTreeDTO parent = codeToTrees.get(value.getNode().getParent());
+                BizDirTreeDTO parent = codes.get(value.getNode().getParent());
                 if (parent != null) {
                     parent.addChild(value);
                 }
@@ -63,7 +63,7 @@ public class BizService extends MyBaseService implements InitializingBean {
         }
 
         //本身
-        List<BizDirTreeDTO> result = codes.stream().map(e -> codeToTrees.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
+        List<BizDirTreeDTO> result = codes.stream().map(e -> this.codes.get(e)).filter(Objects::nonNull).collect(Collectors.toList());
 
         //children
         List<String> childrenDeptCodes = new ArrayList<>();
