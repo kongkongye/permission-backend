@@ -10,4 +10,5 @@ public class PerTypeQuery extends MyBaseQuery {
     private String code;
     private String name;
     private String note;
+    private String filter;
 }

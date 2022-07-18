@@ -17,4 +17,11 @@ public class PerType extends Model {
     private String code;
     private String name;
     private String note;
+
+    /**
+     * (可选)
+     * 使用另一个PerType作为过滤器
+     * 值为PerType的code
+     */
+    private String filter;
 }

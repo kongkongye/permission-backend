@@ -48,6 +48,8 @@ public class AdminPerController extends MyBaseController {
 
     @RequestMapping("/queryPerValueBrief")
     public Result queryPerValueBrief(PerValueQuery query, Paging paging) {
+        query.handle();
+        query.setFilterCodeList(isTrue(query.getFilterContainSub()) && query.getFilterCodeList() != null ? perService.getCodesRecursive(query.getFilterCodeList()) : query.getFilterCodeList());
         return Result.success(QueryUtil.query(query.getQueryType(), paging, perValueDao.helpBrief(query)));
     }
 

@@ -28,4 +28,10 @@ public class PerValue extends Model {
     @Nullable
     private String parent;
     private String note;
+
+    /**
+     * 使用另一个PerType作为过滤器
+     * 值为PerValue的code
+     */
+    private String filterCode;
 }
