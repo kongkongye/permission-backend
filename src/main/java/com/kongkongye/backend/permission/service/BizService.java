@@ -6,6 +6,7 @@ import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.dto.per.BizDirTreeDTO;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class BizService extends MyBaseService implements InitializingBean {
 
     @Autowired
     @Qualifier("bizDirTreeCacheManager")
+    @Getter
     private RedisCacheManager<List<BizDir>> bizDirCache;
 
     public void refreshTree() {

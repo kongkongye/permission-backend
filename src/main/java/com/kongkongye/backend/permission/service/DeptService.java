@@ -6,6 +6,7 @@ import com.kongkongye.backend.permission.common.MyBaseService;
 import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.dto.dept.DeptTreeDTO;
 import com.kongkongye.backend.permission.entity.dept.Dept;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class DeptService extends MyBaseService implements InitializingBean {
 
     @Autowired
     @Qualifier("deptTreeCacheManager")
+    @Getter
     private RedisCacheManager<List<Dept>> deptCache;
 
     public void refreshTree() {

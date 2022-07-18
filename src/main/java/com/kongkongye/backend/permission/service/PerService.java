@@ -8,6 +8,7 @@ import com.kongkongye.backend.permission.dto.per.PerValueBriefDTO;
 import com.kongkongye.backend.permission.dto.per.PerValueTreeDTO;
 import com.kongkongye.backend.permission.entity.per.PerBind;
 import com.kongkongye.backend.permission.entity.per.PerValue;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ public class PerService extends MyBaseService implements InitializingBean {
 
     @Autowired
     @Qualifier("perValueCacheManager")
+    @Getter
     private RedisCacheManager<List<PerValueBriefDTO>> perValueCache;
 
     public void refreshTree() {
