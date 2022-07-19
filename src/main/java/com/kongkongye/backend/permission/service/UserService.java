@@ -25,6 +25,7 @@ public class UserService extends MyBaseService {
             Preconditions.checkArgument(userRepository.findByName(user.getName()) == null, "用户名已存在");
             if (!Strings.isNullOrEmpty(user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
+                user.setPasswordEncoder(com.kongkongye.backend.permission.en.PasswordEncoder.bcrypt.name());
             }
             user = userDao.save(user, "code", "disabled");
         } else {//修改
@@ -35,6 +36,7 @@ public class UserService extends MyBaseService {
 
             if (!Strings.isNullOrEmpty(user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
+                user.setPasswordEncoder(com.kongkongye.backend.permission.en.PasswordEncoder.bcrypt.name());
                 user = userDao.save(user, "code", "disabled");
             } else {
                 //不修改密码

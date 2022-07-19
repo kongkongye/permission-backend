@@ -17,6 +17,7 @@ public class User extends Model {
     private String name;
     @SelParse(enable = false)
     private String password;
+    private String passwordEncoder;
     private String note;
     @Nullable
     private Boolean disabled;
