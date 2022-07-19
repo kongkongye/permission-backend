@@ -17,6 +17,9 @@ public class User extends Model {
     private String name;
     @SelParse(enable = false)
     private String password;
+    /**
+     * @see com.kongkongye.backend.permission.en.PasswordEncoder
+     */
     private String passwordEncoder;
     private String note;
     @Nullable
