@@ -1,5 +1,6 @@
 package com.kongkongye.backend.permission.config.jdbc;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.kongkongye.backend.permission.entity.user.User;
 import com.kongkongye.backend.permission.repository.UserRepository;
@@ -23,6 +24,8 @@ public class MyUserDetailsService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found: " + username);
         }
+        Preconditions.checkArgument(user.getDisabled() == null || !user.getDisabled(), "用户已禁用");
+
         return new MyUser(user.getId(), user.getName(), user.getPassword(), Lists.newArrayList("ADMIN").stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }
 }
