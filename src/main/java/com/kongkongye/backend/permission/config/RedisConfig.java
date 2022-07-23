@@ -11,7 +11,6 @@ import com.kongkongye.backend.permission.entity.per.BizDir;
 import com.kongkongye.backend.permission.query.PerValueQuery;
 import com.kongkongye.backend.permission.repository.BizDirRepository;
 import com.kongkongye.backend.permission.repository.DeptRepository;
-import com.kongkongye.backend.permission.repository.PerValueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -29,8 +28,6 @@ public class RedisConfig {
     private BizDirRepository bizDirRepository;
     @Autowired
     private DeptRepository deptRepository;
-    @Autowired
-    private PerValueRepository perValueRepository;
     @Autowired
     private PerValueDao perValueDao;
     @Autowired
