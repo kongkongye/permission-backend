@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.interceptor.*;
 
 import java.util.Collections;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Aspect
 @Configuration
+@EnableTransactionManagement(proxyTargetClass = true)
 public class TransactionConfig {
     private String aopPointcutExpressionBaseService = "execution (* com.kongkongye.backend.permission.common.BaseService+.*(..))";
 
