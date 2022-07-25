@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminDeptController extends MyBaseController {
     @RequestMapping("/query")
     public Result query(DeptQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, deptDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, deptDao.help(query)));
     }
 
     @RequestMapping("/save")

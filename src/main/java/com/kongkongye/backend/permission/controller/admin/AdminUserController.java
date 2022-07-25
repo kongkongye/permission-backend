@@ -35,7 +35,7 @@ public class AdminUserController extends MyBaseController {
 
     @RequestMapping("/queryUserRole")
     public Result queryUserRole(UserRoleQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, userRoleDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, userRoleDao.help(query)));
     }
 
     @RequestMapping("/addUserRole")

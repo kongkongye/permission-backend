@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminPerController extends MyBaseController {
     @RequestMapping("/queryBizDir")
     public Result queryBizDir(BizDirQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, bizDirDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, bizDirDao.help(query)));
     }
 
     @RequestMapping("/saveBizDir")
@@ -28,7 +28,7 @@ public class AdminPerController extends MyBaseController {
     public Result queryBiz(BizQuery query, Paging paging) {
         query.handle();
         query.setDirCodeList(isTrue(query.getContainSubDir()) ? bizService.getCodesRecursive(query.getDirCodeList()) : query.getDirCodeList());
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, bizDao.help(query).build()));
+        return Result.success(QueryUtil.query(query.getQType(), paging, bizDao.help(query).build()));
     }
 
     @RequestMapping("/saveBiz")
@@ -38,19 +38,19 @@ public class AdminPerController extends MyBaseController {
 
     @RequestMapping("/queryPerType")
     public Result queryPerType(PerTypeQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, perTypeDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, perTypeDao.help(query)));
     }
 
     @RequestMapping("/queryPerValue")
     public Result queryPerValue(PerValueQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, perValueDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, perValueDao.help(query)));
     }
 
     @RequestMapping("/queryPerValueBrief")
     public Result queryPerValueBrief(PerValueQuery query, Paging paging) {
         query.handle();
         query.setFilterCodeList(isTrue(query.getFilterContainSub()) && query.getFilterCodeList() != null ? perService.getCodesRecursive(query.getFilterCodeList()) : query.getFilterCodeList());
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, perValueDao.helpBrief(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, perValueDao.helpBrief(query)));
     }
 
     @RequestMapping("/savePerValue")
@@ -60,12 +60,12 @@ public class AdminPerController extends MyBaseController {
 
     @RequestMapping("/queryPerBind")
     public Result queryPerBind(PerBindQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, perBindDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, perBindDao.help(query)));
     }
 
     @RequestMapping("/queryPerBindBrief")
     public Result queryPerBindBrief(PerBindQuery query, Paging paging) {
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, perBindDao.helpBrief(query)));
+        return Result.success(QueryUtil.query(query.getQType(), paging, perBindDao.helpBrief(query)));
     }
 
     @RequestMapping("/addPerBind")
