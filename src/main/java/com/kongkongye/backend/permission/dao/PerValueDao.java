@@ -6,7 +6,7 @@ import com.kongkongye.backend.permission.dto.per.PerValueDTO;
 import com.kongkongye.backend.permission.entity.per.PerValue;
 import com.kongkongye.backend.permission.query.PerValueQuery;
 import com.kongkongye.backend.permission.repository.PerValueRepository;
-import com.kongkongye.backend.queryer.SqlHelper;
+import com.kongkongye.backend.queryer.SqlHelperBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,12 +15,12 @@ public class PerValueDao extends MyBaseDao<PerValue> {
         super(repository);
     }
 
-    public SqlHelper<PerValueDTO> help(PerValueQuery query) {
+    public SqlHelperBuilder<PerValueDTO> help(PerValueQuery query) {
         return help((selSql, fromSql, whereSql, groupSql, params) -> {
         }, query, PerValueDTO.class);
     }
 
-    public SqlHelper<PerValueBriefDTO> helpBrief(PerValueQuery query) {
+    public SqlHelperBuilder<PerValueBriefDTO> helpBrief(PerValueQuery query) {
         return help((selSql, fromSql, whereSql, groupSql, params) -> {
         }, query, PerValueBriefDTO.class);
     }

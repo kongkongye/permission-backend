@@ -5,7 +5,7 @@ import com.kongkongye.backend.permission.dto.user.UserDTO;
 import com.kongkongye.backend.permission.entity.user.User;
 import com.kongkongye.backend.permission.query.UserQuery;
 import com.kongkongye.backend.permission.repository.UserRepository;
-import com.kongkongye.backend.queryer.SqlHelper;
+import com.kongkongye.backend.queryer.SqlHelperBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,7 @@ public class UserDao extends MyBaseDao<User> {
         super(repository);
     }
 
-    public SqlHelper<UserDTO> help(UserQuery query) {
+    public SqlHelperBuilder<UserDTO> help(UserQuery query) {
         return help((selSql, fromSql, whereSql, groupSql, params) -> {
             //deptCodeList
             if (query.getDeptCodeList() != null && !query.getDeptCodeList().isEmpty()) {

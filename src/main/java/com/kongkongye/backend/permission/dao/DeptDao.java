@@ -5,7 +5,7 @@ import com.kongkongye.backend.permission.dto.dept.DeptDTO;
 import com.kongkongye.backend.permission.entity.dept.Dept;
 import com.kongkongye.backend.permission.query.DeptQuery;
 import com.kongkongye.backend.permission.repository.DeptRepository;
-import com.kongkongye.backend.queryer.SqlHelper;
+import com.kongkongye.backend.queryer.SqlHelperBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +14,7 @@ public class DeptDao extends MyBaseDao<Dept> {
         super(repository);
     }
 
-    public SqlHelper<DeptDTO> help(DeptQuery query) {
+    public SqlHelperBuilder<DeptDTO> help(DeptQuery query) {
         return help((selSql, fromSql, whereSql, groupSql, params) -> {
         }, query, DeptDTO.class);
     }

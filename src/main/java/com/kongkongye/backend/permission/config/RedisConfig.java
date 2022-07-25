@@ -81,7 +81,7 @@ public class RedisConfig {
 
             @Override
             protected List<PerValueBriefDTO> loadData() {
-                return Lists.newArrayList(perValueDao.helpBrief(new PerValueQuery()).getListParsed());
+                return Lists.newArrayList(perValueDao.helpBrief(new PerValueQuery()).build().getListParsed());
             }
 
             @Override
