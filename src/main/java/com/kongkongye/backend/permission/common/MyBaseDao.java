@@ -3,7 +3,8 @@ package com.kongkongye.backend.permission.common;
 import com.kongkongye.backend.permission.common.util.Util;
 import com.kongkongye.backend.permission.entity.Model;
 import com.kongkongye.backend.queryer.SqlHelper;
-import com.kongkongye.backend.queryer.jdbc.JdbcUtil;
+import com.kongkongye.backend.queryer.SqlHelperBuilder;
+import com.kongkongye.backend.queryer.jdbc.JdbcSqlHelperBuilder;
 import com.kongkongye.backend.queryer.query.Query;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class MyBaseDao<T extends Model> extends Base {
         this.repository = repository;
     }
 
-    public <R> SqlHelper<R> help(SqlHelper.HelpBuilder helpBuilder, @Nullable Query query, @Nullable Class<R> cls) {
-        return JdbcUtil.help(template, helpBuilder, query, cls);
+    public <R> SqlHelperBuilder<R> help(SqlHelper.HelpBuilder helpBuilder, @Nullable Query query, @Nullable Class<R> cls) {
+        return new JdbcSqlHelperBuilder<>(template, helpBuilder, query, cls);
     }
 
     /**

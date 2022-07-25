@@ -28,7 +28,7 @@ public class AdminPerController extends MyBaseController {
     public Result queryBiz(BizQuery query, Paging paging) {
         query.handle();
         query.setDirCodeList(isTrue(query.getContainSubDir()) ? bizService.getCodesRecursive(query.getDirCodeList()) : query.getDirCodeList());
-        return Result.success(QueryUtil.query(query.getQueryType(), paging, bizDao.help(query)));
+        return Result.success(QueryUtil.query(query.getQueryType(), paging, bizDao.help(query).build()));
     }
 
     @RequestMapping("/saveBiz")
