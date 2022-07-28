@@ -15,6 +15,7 @@ import org.springframework.lang.Nullable;
 public class User extends Model {
     private String code;
     private String name;
+    private String nickname;
     @SelParse(enable = false)
     private String password;
     /**
