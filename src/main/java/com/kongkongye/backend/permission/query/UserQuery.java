@@ -14,6 +14,7 @@ import java.util.List;
 public class UserQuery extends MyBaseQuery {
     private String code;
     private String name;
+    private String nickname;
     private Boolean disabled;
 
     @QueryParse(enable = false)
