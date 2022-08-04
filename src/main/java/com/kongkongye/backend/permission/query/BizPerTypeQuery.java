@@ -7,12 +7,9 @@ import lombok.Data;
 
 @Data
 @AutoQuery
-public class PerTypeQuery extends MyBaseQuery {
-    private String code;
-    private String name;
-    private String note;
-    private String filter;
-
-    @QueryParse(enable = false)
+public class BizPerTypeQuery extends MyBaseQuery {
     private String bizCode;
+    private String perTypeCode;
+    @QueryParse(alias = "pt", sqlFieldName = "name")
+    private String perTypeName;
 }

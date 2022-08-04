@@ -29,6 +29,8 @@ public class MyBaseService extends BaseService {
     protected UserRoleDao userRoleDao;
 
     @Autowired
+    protected BizPerTypeDao bizPerTypeDao;
+    @Autowired
     protected UserDeptRepository userDeptRepository;
     @Autowired
     protected UserRepository userRepository;
@@ -53,4 +55,7 @@ public class MyBaseService extends BaseService {
     protected RedisTemplate redisTemplate;
     @Autowired
     protected StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    protected BizPerTypeRepository bizPerTypeRepository;
 }

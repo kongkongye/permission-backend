@@ -1,11 +1,13 @@
 package com.kongkongye.backend.permission.service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kongkongye.backend.permission.common.MyBaseService;
 import com.kongkongye.backend.permission.common.RedisCacheManager;
 import com.kongkongye.backend.permission.dto.per.BizDirTreeDTO;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
+import com.kongkongye.backend.permission.entity.per.BizPerType;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -94,4 +96,21 @@ public class BizService extends MyBaseService implements InitializingBean {
         bizDirCache.addUpdateNotifier(this::refreshTree);
         refreshTree();
     }
+
+    public void addBizPerType(String bizCode, String perTypeCode) {
+        BizPerType bizPerType = bizPerTypeRepository.findByBizCodeAndPerTypeCode(bizCode, perTypeCode);
+        Preconditions.checkArgument(bizPerType == null, "业务对象已存在该可见类型权限: " + bizCode);
+
+        bizPerType = new BizPerType();
+        bizPerType.setBizCode(bizCode);
+        bizPerType.setPerTypeCode(perTypeCode);
+        bizPerTypeDao.save(bizPerType);
+    }
+
+    public void delBizPerType(String bizCode, String perTypeCode) {
+        BizPerType bizPerType = bizPerTypeRepository.findByBizCodeAndPerTypeCode(bizCode, perTypeCode);
+        Preconditions.checkArgument(bizPerType != null, "业务对象不存在该可见类型权限: " + bizCode);
+        bizPerTypeDao.del(bizPerType);
+    }
+
 }

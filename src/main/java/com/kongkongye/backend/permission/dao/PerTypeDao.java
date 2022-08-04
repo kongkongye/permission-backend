@@ -16,6 +16,10 @@ public class PerTypeDao extends MyBaseDao<PerType> {
 
     public SqlHelperBuilder<PerTypeDTO> help(PerTypeQuery query) {
         return help((selSql, fromSql, whereSql, groupSql, params) -> {
+            if (query.getBizCode()!=null && !"".equals(query.getBizCode())) {
+                whereSql.append("and exists(select 1 from biz_per_type bpt where bpt.per_type_code =  a.`code` and bpt.biz_code = :bizCode)");
+                params.put("bizCode", query.getBizCode());
+            }
         }, query, PerTypeDTO.class);
     }
 }

@@ -47,6 +47,8 @@ public class MyBaseController extends BaseController {
     protected UserRoleDao userRoleDao;
 
     @Autowired
+    protected BizPerTypeDao bizPerTypeDao;
+    @Autowired
     protected UserDeptRepository userDeptRepository;
     @Autowired
     protected UserRepository userRepository;

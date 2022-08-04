@@ -2,6 +2,7 @@ package com.kongkongye.backend.permission.controller.admin;
 
 import com.kongkongye.backend.permission.common.MyBaseController;
 import com.kongkongye.backend.permission.common.Result;
+import com.kongkongye.backend.permission.dao.BizPerTypeDao;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
 import com.kongkongye.backend.permission.entity.per.PerValue;
@@ -77,6 +78,20 @@ public class AdminPerController extends MyBaseController {
     @RequestMapping("/delPerBind")
     public Result delPerBind(String bizCode, String bindType, String bindCode, String typeCode, String perCode) {
         perService.delPerBind(bizCode, bindType, bindCode, typeCode, perCode);
+        return Result.success();
+    }
+    @RequestMapping("queryBizPerType")
+    public Result queryBizPerType(BizPerTypeQuery query, Paging paging) {
+        return Result.success(QueryUtil.query(query.getQType(), paging, bizPerTypeDao.help(query)));
+    }
+    @RequestMapping("addBizPerType")
+    public Result addBizPerType(String bizCode, String perTypeCode) {
+        bizService.addBizPerType(bizCode, perTypeCode);
+        return Result.success();
+    }
+    @RequestMapping("delBizPerType")
+    public Result delBizPerType(String bizCode, String perTypeCode) {
+        bizService.delBizPerType(bizCode, perTypeCode);
         return Result.success();
     }
 
