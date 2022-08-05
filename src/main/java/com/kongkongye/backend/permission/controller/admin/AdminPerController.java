@@ -5,6 +5,7 @@ import com.kongkongye.backend.permission.common.Result;
 import com.kongkongye.backend.permission.dao.BizPerTypeDao;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
+import com.kongkongye.backend.permission.entity.per.PerType;
 import com.kongkongye.backend.permission.entity.per.PerValue;
 import com.kongkongye.backend.permission.query.*;
 import com.kongkongye.backend.queryer.QueryUtil;
@@ -40,6 +41,11 @@ public class AdminPerController extends MyBaseController {
     @RequestMapping("/queryPerType")
     public Result queryPerType(PerTypeQuery query, Paging paging) {
         return Result.success(QueryUtil.query(query.getQType(), paging, perTypeDao.help(query)));
+    }
+
+    @RequestMapping("/savePerType")
+    public Result<PerType> save(PerType perType){
+        return Result.success(perTypeDao.save(perType));
     }
 
     @RequestMapping("/queryPerValue")
