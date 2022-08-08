@@ -129,12 +129,12 @@ public class PerService extends MyBaseService implements InitializingBean {
     public List<String> getUserPerList(PerBindQuery query) {
         List<String> userPerList = perBindDao.helpBrief(query).build().getListParsed().stream().map(PerBindBriefDTO::getPerCode).collect(Collectors.toList());
         List<String> roleList = userRoleRepository.findAllByUserCode(query.getBindCode()).stream().map(UserRole::getRoleCode).collect(Collectors.toList());
-        PerBindQuery newquery = new PerBindQuery();
-        newquery.setBizCode(query.getBizCode());
-        newquery.setTypeCode(query.getTypeCode());
-        newquery.setBindType("role");
-        newquery.setBindCodeList(roleList);
-        List<String> rolePerList = perBindDao.helpBrief(newquery).build().getListParsed().stream().map(PerBindBriefDTO::getPerCode).collect(Collectors.toList());
+        PerBindQuery newQuery = new PerBindQuery();
+        newQuery.setBizCode(query.getBizCode());
+        newQuery.setTypeCode(query.getTypeCode());
+        newQuery.setBindType("role");
+        newQuery.setBindCodeList(roleList);
+        List<String> rolePerList = perBindDao.helpBrief(newQuery).build().getListParsed().stream().map(PerBindBriefDTO::getPerCode).collect(Collectors.toList());
         List<String> perList = new ArrayList<>(userPerList);
         perList.addAll(rolePerList);
         return perList.stream().distinct().collect(Collectors.toList());
