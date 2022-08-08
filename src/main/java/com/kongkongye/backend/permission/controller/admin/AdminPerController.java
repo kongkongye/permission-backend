@@ -12,6 +12,8 @@ import com.kongkongye.backend.queryer.QueryUtil;
 import com.kongkongye.backend.queryer.common.Paging;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/admin/per")
@@ -99,6 +101,11 @@ public class AdminPerController extends MyBaseController {
     public Result delBizPerType(String bizCode, String perTypeCode) {
         bizService.delBizPerType(bizCode, perTypeCode);
         return Result.success();
+    }
+
+    @RequestMapping("queryUserPerBindBrief")
+    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query) {
+        return Result.success(perService.getUserPerList(query));
     }
 
 }

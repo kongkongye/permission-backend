@@ -4,10 +4,14 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.kongkongye.backend.permission.common.MyBaseService;
 import com.kongkongye.backend.permission.common.RedisCacheManager;
+import com.kongkongye.backend.permission.dto.per.PerBindBriefDTO;
 import com.kongkongye.backend.permission.dto.per.PerValueBriefDTO;
 import com.kongkongye.backend.permission.dto.per.PerValueTreeDTO;
 import com.kongkongye.backend.permission.entity.per.PerBind;
 import com.kongkongye.backend.permission.entity.per.PerValue;
+import com.kongkongye.backend.permission.entity.user.UserRole;
+import com.kongkongye.backend.permission.query.PerBindQuery;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -121,4 +125,19 @@ public class PerService extends MyBaseService implements InitializingBean {
         perValueCache.addUpdateNotifier(this::refreshTree);
         refreshTree();
     }
+
+    public List<String> getUserPerList(PerBindQuery query) {
+        List<String> userPerList = perBindDao.helpBrief(query).build().getListParsed().stream().map(PerBindBriefDTO::getPerCode).collect(Collectors.toList());
+        List<String> roleList = userRoleRepository.findAllByUserCode(query.getBindCode()).stream().map(UserRole::getRoleCode).collect(Collectors.toList());
+        PerBindQuery newquery = new PerBindQuery();
+        newquery.setBizCode(query.getBizCode());
+        newquery.setTypeCode(query.getTypeCode());
+        newquery.setBindType("role");
+        newquery.setBindCodeList(roleList);
+        List<String> rolePerList = perBindDao.helpBrief(newquery).build().getListParsed().stream().map(PerBindBriefDTO::getPerCode).collect(Collectors.toList());
+        List<String> perList = new ArrayList<>(userPerList);
+        perList.addAll(rolePerList);
+        return perList.stream().distinct().collect(Collectors.toList());
+    }
+
 }

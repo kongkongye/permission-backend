@@ -5,6 +5,7 @@ import com.kongkongye.backend.queryer.query.annotation.AutoQuery;
 import com.kongkongye.backend.queryer.query.annotation.QueryNull;
 import com.kongkongye.backend.queryer.query.annotation.QueryParse;
 import lombok.Data;
+import java.util.List;
 
 @Data
 @AutoQuery
@@ -18,4 +19,7 @@ public class PerBindQuery extends MyBaseQuery {
     @QueryNull
     @QueryParse(sqlFieldName = "biz_code")
     private Boolean bizCodeIsNull;
+
+    @QueryParse(sqlFieldName = "bind_code")
+    private List<String> bindCodeList;
 }
