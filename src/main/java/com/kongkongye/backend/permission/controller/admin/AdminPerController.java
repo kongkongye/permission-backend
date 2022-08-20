@@ -46,7 +46,7 @@ public class AdminPerController extends MyBaseController {
     }
 
     @RequestMapping("/savePerType")
-    public Result<PerType> save(PerType perType){
+    public Result<PerType> savePerType(PerType perType){
         return Result.success(perTypeDao.save(perType));
     }
 
