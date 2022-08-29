@@ -1,0 +1,40 @@
+type Query {
+    user(id: ID!): User
+}
+type User {
+    id: ID!
+    code: String!
+    name: String!
+    nickname: String
+    disabled: Boolean
+
+    roles: [Role]!
+    roleNodes(paging: Paging = {pageSize: 10 page: 0}): RolePage!
+}
+
+type Role {
+    id: ID!
+    code: String!
+    name: String!
+}
+
+input Paging {
+    pageSize: Int
+    page: Int
+}
+
+#分页(页面从0开始)
+interface Page {
+    #总元素数量
+    totalElements: Int
+    #总页数
+    totalPages: Int
+}
+
+#角色分页
+type RolePage implements Page {
+    totalElements: Int
+    totalPages: Int
+
+    content: [Role]!
+}

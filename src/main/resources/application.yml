@@ -24,3 +24,17 @@ spring:
 logging:
   file:
     name: application.log
+
+graphql:
+  servlet:
+    cors:
+      allowed-origins: http://localhost:8080
+      allowed-methods: GET, HEAD, POST
+    # if you want to @ExceptionHandler annotation for custom GraphQLErrors
+    exception-handlers-enabled: true
+    context-setting: PER_REQUEST_WITH_INSTRUMENTATION
+    # Sets if asynchronous operations are supported for GraphQL requests. If not specified defaults to true.
+    async:
+      enabled: true
+    enabled: true
+  extended-scalars: BigDecimal, Date
