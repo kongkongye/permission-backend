@@ -17,10 +17,10 @@ public class UserResolver extends MyBaseGraphqlResolver<User> {
         return CompletableFuture.supplyAsync(() -> userRoleRepository.findAllByUserCode(user.getCode()).stream().map(e -> roleRepository.findByCode(e.getRoleCode())).collect(Collectors.toList()));
     }
 
-    CompletableFuture<Page<Role>> roleNodes(User user, Paging paging) {
-        return CompletableFuture.supplyAsync(() -> wrapPage(
+    Page<Role> roleNodes(User user, Paging paging) {
+        return wrapPage(
                 userRoleRepository.findAllByUserCode(user.getCode(), wrap(paging)),
                 e -> roleRepository.findByCode(e.getRoleCode())
-        ));
+        );
     }
 }

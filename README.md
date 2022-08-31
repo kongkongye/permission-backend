@@ -7,6 +7,7 @@
    3. sql查询框架：queryer
 3. spring security
 4. spring session
+5. graphql：开发中...
 
 ## 初始数据库
 
