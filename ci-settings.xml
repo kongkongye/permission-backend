@@ -22,7 +22,7 @@
             <repositories>
                 <repository>
                     <id>wxgx</id>
-                    <url>https://10.15.98.52:8081/repository/maven-public/</url>
+                    <url>http://10.15.98.52:8081/repository/maven-public/</url>
                 </repository>
             </repositories>
         </profile>
