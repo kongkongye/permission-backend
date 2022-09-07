@@ -28,7 +28,7 @@ stages: # List of stages for jobs, and their order of execution
 push:
   stage: build
   tags:
-    - git-client
+    - default
   before_script:
     - mkdir ~/.ssh/
     - echo "${CI_KNOWN_HOSTS}" > ~/.ssh/known_hosts
@@ -45,7 +45,7 @@ push:
 build:
   stage: build
   tags:
-    - maven
+    - default
   script:
     - mvn $MAVEN_CLI_OPTS package
   cache:
