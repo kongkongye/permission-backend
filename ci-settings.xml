@@ -9,6 +9,12 @@
             <name>Nexus aliyun</name>
             <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
         </mirror>
+        <mirror>
+            <id>maven-default-http-blocker</id>
+            <mirrorOf>external:dummy:*</mirrorOf>
+            <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+            <url>http://0.0.0.0/</url>
+        </mirror>
     </mirrors>
     <profiles>
         <profile>
@@ -16,7 +22,7 @@
             <repositories>
                 <repository>
                     <id>wxgx</id>
-                    <url>http://10.15.98.52:8081/repository/maven-public/</url>
+                    <url>https://10.15.98.52:8081/repository/maven-public/</url>
                 </repository>
             </repositories>
         </profile>
