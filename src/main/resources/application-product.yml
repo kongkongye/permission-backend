@@ -2,11 +2,11 @@ realIpHeader: X-Forwarded-For
 spring:
   datasource:
     druid:
-      url: jdbc:mysql://host.docker.internal:3306/permission?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=true&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://10.15.98.51:3306/permission?useSSL=false&serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useLegacyDatetimeCode=true&allowPublicKeyRetrieval=true
       username: root
       password: root
   redis:
-    host: host.docker.internal
+    host: 10.15.98.51
     port: 6379
 
 graphql:
