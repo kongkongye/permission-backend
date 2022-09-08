@@ -66,4 +66,4 @@ deploy:
     - apt-get install -y sshpass
   script:
     - sshpass -p "$DEPLOY_PROD_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./target/permission-1.0.0.jar ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST}:/opt/permission-backend/app.jar
-    - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} bash -c "$RUN_SCRIPT"
+    - "sshpass -p \"$DEPLOY_PROD_PASSWORD\" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} bash -c \"$RUN_SCRIPT\""
