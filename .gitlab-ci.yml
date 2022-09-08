@@ -59,15 +59,9 @@ deploy:
   stage: deploy
   tags:
     - default
-  variables:
-    JAVA_PARAMS: "-Dspring.profiles.active=product"
-    STOP_SCRIPT: "docker rm permission || true"
-    RUN_SCRIPT: "docker run -p 8094:8080 -v /opt/permission-backend/app.jar:/usr/src/myapp/app.jar -w /usr/src/myapp --network app-tier --name permission -d openjdk:8 java -jar $JAVA_PARAMS app.jar"
   before_script:
     - apt-get update -y
     - apt-get install -y sshpass
   script:
     - sshpass -p "$DEPLOY_PROD_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./target/permission-1.0.0.jar ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST}:/opt/permission-backend/app.jar
-    - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} 'bash -c "$STOP_SCRIPT"'
-    - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} 'bash -c "$RUN_SCRIPT"'
-    - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} 'bash -c "sleep 10"'
+    - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} 'bash -s' < /opt/permission-backend/start.sh
