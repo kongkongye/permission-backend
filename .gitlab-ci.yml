@@ -61,7 +61,7 @@ deploy:
     - default
   variables:
     JAVA_PARAMS: "-Dspring.profiles.active=product"
-    RUN_SCRIPT: "docker run -p 8094:8080 -v /opt/permission-backend/app.jar:/usr/src/myapp/app.jar -w /usr/src/myapp --network app-tier --name permission -d --rm openjdk:8 java -jar $JAVA_PARAMS app.jar"
+    RUN_SCRIPT: "docker run -p 8094:8080 -v /opt/permission-backend/app.jar:/usr/src/myapp/app.jar -w /usr/src/myapp --network app-tier --name permission -d openjdk:8 java -jar $JAVA_PARAMS app.jar"
   before_script:
     - apt-get update -y
     - apt-get install -y sshpass
