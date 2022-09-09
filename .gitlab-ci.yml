@@ -57,11 +57,9 @@ build:
 #部署
 deploy:
   stage: deploy
+  image: wxshop-jenkins.kongkongye.com:1111/wx-ubuntu
   tags:
     - default
-  before_script:
-    - apt-get update -y
-    - apt-get install -y sshpass
   script:
     - sshpass -p "$DEPLOY_PROD_PASSWORD" scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ./target/permission-1.0.0.jar ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST}:/opt/permission-backend/app.jar
     - sshpass -p "$DEPLOY_PROD_PASSWORD" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST} 'bash -s < /opt/permission-backend/start.sh'
