@@ -13,7 +13,7 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
-image: maven:3.8.6-jdk-8
+image: wxshop-jenkins.kongkongye.com:1111/maven:3.8.6-jdk-8
 
 variables:
   MAVEN_CLI_OPTS: "-s ci-settings.xml --batch-mode -P $MVN_PROFILE"
