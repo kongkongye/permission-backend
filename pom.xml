@@ -92,4 +92,11 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>wxgx</id>
+            <url>http://wxshop-jenkins.kongkongye.com:8081/repository/maven-public/</url>
+        </repository>
+    </repositories>
 </project>
