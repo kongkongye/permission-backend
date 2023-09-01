@@ -2,7 +2,6 @@ package com.kongkongye.backend.permission.controller.admin;
 
 import com.kongkongye.backend.permission.common.MyBaseController;
 import com.kongkongye.backend.permission.common.Result;
-import com.kongkongye.backend.permission.dao.BizPerTypeDao;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
 import com.kongkongye.backend.permission.entity.per.PerType;
@@ -12,6 +11,7 @@ import com.kongkongye.backend.queryer.QueryUtil;
 import com.kongkongye.backend.queryer.common.Paging;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 
 
@@ -88,22 +88,25 @@ public class AdminPerController extends MyBaseController {
         perService.delPerBind(bizCode, bindType, bindCode, typeCode, perCode);
         return Result.success();
     }
-    @RequestMapping("queryBizPerType")
+
+    @RequestMapping("/queryBizPerType")
     public Result queryBizPerType(BizPerTypeQuery query, Paging paging) {
         return Result.success(QueryUtil.query(query.getQType(), paging, bizPerTypeDao.help(query)));
     }
-    @RequestMapping("addBizPerType")
+
+    @RequestMapping("/addBizPerType")
     public Result addBizPerType(String bizCode, String perTypeCode) {
         bizService.addBizPerType(bizCode, perTypeCode);
         return Result.success();
     }
-    @RequestMapping("delBizPerType")
+
+    @RequestMapping("/delBizPerType")
     public Result delBizPerType(String bizCode, String perTypeCode) {
         bizService.delBizPerType(bizCode, perTypeCode);
         return Result.success();
     }
 
-    @RequestMapping("queryUserPerBindBrief")
+    @RequestMapping("/queryUserPerBindBrief")
     public Result<List<String>> queryUserPerBindBrief(PerBindQuery query) {
         return Result.success(perService.getUserPerList(query));
     }
