@@ -119,10 +119,12 @@ public abstract class RedisCacheManager<V> implements MessageListener {
         String uid = new String(message.getBody());
         boolean update = !Objects.equals(uid, this.uid.toString());
         log.info("[{}]收到更新通知{}", name, update ? "" : "(自己发出，忽略)");
-        //重置内存
-        data = Optional.empty();
-        //重新加载数据
-        getData();
+        if (update) {
+            //重置内存
+            data = Optional.empty();
+            //重新加载数据
+            getData();
+        }
     }
 
     /**
