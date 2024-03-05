@@ -108,7 +108,9 @@ public class AdminPerController extends MyBaseController {
 
     @RequestMapping("/queryUserPerBindBrief")
     public Result<List<String>> queryUserPerBindBrief(PerBindQuery query) {
-        return Result.success(perService.getUserPerList(query));
+        List<String> userPerList = perService.getUserPerList(query);
+        userPerList = perService.getCodesRecursive(userPerList);
+        return Result.success(userPerList);
     }
 
 }
