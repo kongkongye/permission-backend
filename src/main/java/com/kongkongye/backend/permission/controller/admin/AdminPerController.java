@@ -9,6 +9,7 @@ import com.kongkongye.backend.permission.entity.per.PerValue;
 import com.kongkongye.backend.permission.query.*;
 import com.kongkongye.backend.queryer.QueryUtil;
 import com.kongkongye.backend.queryer.common.Paging;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -106,10 +107,14 @@ public class AdminPerController extends MyBaseController {
         return Result.success();
     }
 
+    /**
+     * @param lv 传了表示只查这个层级的
+     */
     @RequestMapping("/queryUserPerBindBrief")
-    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query) {
+    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query, @Nullable Integer lv) {
         List<String> userPerList = perService.getUserPerList(query);
         userPerList = perService.getCodesRecursive(userPerList);
+        userPerList = perService.filterByLv(userPerList, lv);
         return Result.success(userPerList);
     }
 

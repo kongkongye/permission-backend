@@ -11,7 +11,6 @@ import com.kongkongye.backend.permission.entity.per.PerBind;
 import com.kongkongye.backend.permission.entity.per.PerValue;
 import com.kongkongye.backend.permission.entity.user.UserRole;
 import com.kongkongye.backend.permission.query.PerBindQuery;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,22 +34,33 @@ public class PerService extends MyBaseService implements InitializingBean {
     private RedisCacheManager<List<PerValueBriefDTO>> perValueCache;
 
     public void refreshTree() {
+        Map<String, PerValueTreeDTO> newCodes = new HashMap<>();
+        List<PerValueTreeDTO> newTrees = new ArrayList<>();
+
         List<PerValueBriefDTO> data = perValueCache.getData();
         //depts
         for (PerValueBriefDTO value : data) {
-            codes.put(value.getCode(), new PerValueTreeDTO(value));
+            newCodes.put(value.getCode(), new PerValueTreeDTO(value));
         }
         //trees
-        for (Map.Entry<String, PerValueTreeDTO> entry : codes.entrySet()) {
+        for (Map.Entry<String, PerValueTreeDTO> entry : newCodes.entrySet()) {
             PerValueTreeDTO value = entry.getValue();
             if (!Strings.isNullOrEmpty(value.getNode().getParent())) {
-                PerValueTreeDTO parent = codes.get(value.getNode().getParent());
+                PerValueTreeDTO parent = newCodes.get(value.getNode().getParent());
                 if (parent != null) {
                     parent.addChild(value);
                 }
             } else {
-                trees.add(value);
+                newTrees.add(value);
             }
+        }
+
+        this.codes = newCodes;
+        this.trees = newTrees;
+
+        //修正等级
+        for (PerValueTreeDTO tree : trees) {
+            tree.fixLv(1);
         }
     }
 
@@ -140,4 +150,13 @@ public class PerService extends MyBaseService implements InitializingBean {
         return perList.stream().distinct().collect(Collectors.toList());
     }
 
+    public List<String> filterByLv(List<String> userPerList, @Nullable Integer lv) {
+        if (lv == null || lv <= 0) {
+            return userPerList;
+        }
+        return userPerList.stream().filter(per -> {
+            PerValueTreeDTO perValueTreeDTO = codes.get(per);
+            return perValueTreeDTO != null && com.google.common.base.Objects.equal(perValueTreeDTO.getLv(), lv);
+        }).collect(Collectors.toList());
+    }
 }
