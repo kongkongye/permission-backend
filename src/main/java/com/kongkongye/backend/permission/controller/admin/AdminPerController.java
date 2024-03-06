@@ -111,10 +111,14 @@ public class AdminPerController extends MyBaseController {
      * @param lv 传了表示只查这个层级的
      */
     @RequestMapping("/queryUserPerBindBrief")
-    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query, @Nullable Integer lv) {
+    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query, Boolean recursive, @Nullable Integer lv) {
         List<String> userPerList = perService.getUserPerList(query);
-        userPerList = perService.getCodesRecursive(userPerList);
-        userPerList = perService.filterByLv(userPerList, lv);
+        if (isTrue(recursive)) {
+            userPerList = perService.getCodesRecursive(userPerList);
+        }
+        if (lv != null && lv > 0) {
+            userPerList = perService.filterByLv(userPerList, lv);
+        }
         return Result.success(userPerList);
     }
 
