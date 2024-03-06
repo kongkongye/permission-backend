@@ -108,16 +108,21 @@ public class AdminPerController extends MyBaseController {
     }
 
     /**
+     * @param seeName 传了表示要看名字
+     * @param recursive 传了表示要递归（包括子节点）
      * @param lv 传了表示只查这个层级的
      */
     @RequestMapping("/queryUserPerBindBrief")
-    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query, Boolean recursive, @Nullable Integer lv) {
+    public Result<List<String>> queryUserPerBindBrief(PerBindQuery query, Boolean seeName, Boolean recursive, @Nullable Integer lv) {
         List<String> userPerList = perService.getUserPerList(query);
         if (isTrue(recursive)) {
             userPerList = perService.getCodesRecursive(userPerList);
         }
         if (lv != null && lv > 0) {
             userPerList = perService.filterByLv(userPerList, lv);
+        }
+        if (isTrue(seeName)) {
+            userPerList = perService.getNames(userPerList);
         }
         return Result.success(userPerList);
     }

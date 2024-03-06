@@ -159,4 +159,11 @@ public class PerService extends MyBaseService implements InitializingBean {
             return perValueTreeDTO != null && com.google.common.base.Objects.equal(perValueTreeDTO.getLv(), lv);
         }).collect(Collectors.toList());
     }
+
+    public List<String> getNames(List<String> userPerList) {
+        return userPerList.stream().map(per -> {
+            PerValueTreeDTO perValueTreeDTO = codes.get(per);
+            return perValueTreeDTO != null ? perValueTreeDTO.getNode().getName() : null;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
+    }
 }
