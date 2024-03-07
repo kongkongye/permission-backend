@@ -2,6 +2,7 @@ package com.kongkongye.backend.permission.controller.admin;
 
 import com.kongkongye.backend.permission.common.MyBaseController;
 import com.kongkongye.backend.permission.common.Result;
+import com.kongkongye.backend.permission.dto.per.PerValueTreeDTO;
 import com.kongkongye.backend.permission.entity.per.Biz;
 import com.kongkongye.backend.permission.entity.per.BizDir;
 import com.kongkongye.backend.permission.entity.per.PerType;
@@ -125,6 +126,22 @@ public class AdminPerController extends MyBaseController {
             userPerList = perService.getNames(userPerList);
         }
         return Result.success(userPerList);
+    }
+
+    /**
+     * @param recursive 传了表示要递归（包括子节点）
+     * @param lv 传了表示只查这个层级的
+     */
+    @RequestMapping("/queryUserPerBindTree")
+    public Result<List<PerValueTreeDTO>> queryUserPerBindTree(PerBindQuery query, Boolean recursive, @Nullable Integer lv) {
+        List<String> userPerList = perService.getUserPerList(query);
+        if (isTrue(recursive)) {
+            userPerList = perService.getCodesRecursive(userPerList);
+        }
+        if (lv != null && lv > 0) {
+            userPerList = perService.filterByLv(userPerList, lv);
+        }
+        return Result.success(perService.getBriefRootTrees(userPerList));
     }
 
 }

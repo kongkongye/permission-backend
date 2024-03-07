@@ -166,4 +166,28 @@ public class PerService extends MyBaseService implements InitializingBean {
             return perValueTreeDTO != null ? perValueTreeDTO.getNode().getName() : null;
         }).filter(Objects::nonNull).collect(Collectors.toList());
     }
+
+    private void addTreeAndParent(PerValueTreeDTO tree, Map<String, PerValueTreeDTO> map) {
+        if (tree == null) {
+            return;
+        }
+        map.put(tree.getNode().getCode(), tree);
+        addTreeAndParent(codes.get(tree.getNode().getParent()), map);
+    }
+
+    private PerValueTreeDTO cloneTree(PerValueTreeDTO tree, Map<String, PerValueTreeDTO> limit) {
+        PerValueTreeDTO newTree = new PerValueTreeDTO(tree.getNode());
+        newTree.setLv(tree.getLv());
+        List<PerValueTreeDTO> children = tree.getChildren().stream().filter(e -> limit.containsKey(e.getNode().getCode())).map(e -> cloneTree(e, limit)).collect(Collectors.toList());
+        newTree.setChildren(children);
+        return newTree;
+    }
+
+    public List<PerValueTreeDTO> getBriefRootTrees(List<String> perList) {
+        Map<String, PerValueTreeDTO> map = new HashMap<>();
+        for (String per : perList) {
+            addTreeAndParent(codes.get(per), map);
+        }
+        return map.values().stream().filter(tree -> tree.getLv() == 1).map(tree -> cloneTree(tree, map)).collect(Collectors.toList());
+    }
 }
