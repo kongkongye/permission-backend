@@ -47,6 +47,8 @@ public abstract class RedisCacheManager<V> implements MessageListener {
     public void refreshCache() {
         //请求db
         V v = loadData();
+        //更新内存
+        updateMemory(v);
         //更新缓存
         updateCache(v);
     }
