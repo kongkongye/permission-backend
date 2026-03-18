@@ -27,7 +27,7 @@ public class UserService extends MyBaseService {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setPasswordEncoder(com.kongkongye.backend.permission.en.PasswordEncoder.plain.name());
             }
-            user = userDao.save(user, "code", "disabled");
+            user = userDao.save(user, "disabled");
         } else {//修改
             User oldUser = userRepository.findByName(user.getName());
             if (oldUser != null && !Objects.equal(oldUser.getId(), user.getId())) {
@@ -37,10 +37,10 @@ public class UserService extends MyBaseService {
             if (!Strings.isNullOrEmpty(user.getPassword())) {
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setPasswordEncoder(com.kongkongye.backend.permission.en.PasswordEncoder.plain.name());
-                user = userDao.save(user, "code", "disabled");
+                user = userDao.save(user, "disabled");
             } else {
                 //不修改密码
-                user = userDao.save(user, "code", "password", "disabled");
+                user = userDao.save(user, "password", "disabled");
             }
         }
         return user;
